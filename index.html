@@ -13,7 +13,7 @@
             color: #2c1e16;
             display: flex;
             justify-content: center;
-            align-items: center; /* 預設內容置中 */
+            align-items: center; 
             height: 100vh;
             margin: 0;
             line-height: 1.8;
@@ -29,7 +29,7 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             max-width: 750px; 
             width: 90%;
-            text-align: left; /* 【修改1】將 justify 改為 left，解決字距不一的對齊問題 */
+            text-align: left; 
             border: 1px solid #a38c6d;
             border-left: 15px solid #5c4033; 
             transition: all 0.5s ease;
@@ -51,38 +51,44 @@
         body.bg-ending-beg { background-image: url('https://upload.cc/i1/2026/10/04/Ar0oiX.jpeg'); }
         body.bg-bribe { background-image: url('https://upload.cc/i1/2026/10/04/9gFQEM.jpeg'); }
 
-        /* 【修改2】統一設定所有背景圖的顯示方式，並將內容推至「畫面下方」 */
+        /* 統一設定所有背景圖的顯示方式，並將內容推至「畫面最下方」 */
         body[class^="bg-"] {
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            align-items: flex-end; /* 將文字框推到畫面底部 */
-            padding-bottom: 4vh; /* 距離底部留一點空間 */
+            align-items: flex-end; 
+            padding-bottom: 2vh; /* 貼近底部 */
         }
 
-        /* 【修改3】當有背景圖時，把對話框變成 AVG 視覺小說風格 */
+        /* 【視覺小說排版核心】當有背景圖時，把對話框變成置底長條狀 */
         body[class^="bg-"] #game-container {
             background-color: rgba(245, 238, 224, 0.85); 
-            
-            /* 稍微降低模糊度，讓背後的圖片輪廓更明顯 */
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             
-            border-left: 10px solid rgba(92, 64, 51, 0.9);
-            border-radius: 8px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
+            /* 造型改變：取消左粗邊，改為上方點綴，更像對話框 */
+            border: none;
+            border-top: 5px solid rgba(92, 64, 51, 0.8);
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6); 
             
-            /* 限制高度為畫面 45%，並加寬，完美露出上半部背景 */
-            max-height: 45vh; 
-            width: 95%; 
-            max-width: 900px;
+            /* 寬度拉寬，高度限制，露出上方精美圖片 */
+            width: 96%; 
+            max-width: 1100px;
+            min-height: 25vh;
+            max-height: 40vh; 
+            padding: 25px 35px;
+            
+            /* 使用 Flexbox 讓按鈕可以自動被推到框框底部 */
+            display: flex;
+            flex-direction: column;
         }
 
         body.white-theme {
             background: #ffffff;
             background-image: none;
-            align-items: center; /* 確保全白畫面時文字置中 */
+            align-items: center; 
             padding-bottom: 0;
         }
         body.white-theme #game-container {
@@ -96,7 +102,7 @@
         body.black-theme {
             background: #000000;
             background-image: none;
-            align-items: center; /* 確保全黑畫面時文字置中 */
+            align-items: center; 
             padding-bottom: 0;
         }
         body.black-theme #game-container {
@@ -108,12 +114,13 @@
             max-height: 100vh;
         }
         
-        h1, h2 {
+        h1, h2, h3 {
             text-align: center;
             color: inherit;
             border-bottom: 2px dashed #a38c6d;
             padding-bottom: 10px;
             margin-top: 0;
+            margin-bottom: 15px;
         }
         body.white-theme h1, body.white-theme h2,
         body.black-theme h1, body.black-theme h2 {
@@ -132,12 +139,24 @@
             background-color: #fffaf0;
         }
         
+        /* --- 按鈕與選項排列系統 --- */
+        .button-group {
+            display: flex;
+            flex-direction: column; /* 預設為上下排列 */
+            gap: 15px;
+            margin-top: auto; /* 自動將按鈕群組推到對話框底部 */
+            width: 100%;
+        }
+
+        body[class^="bg-"] .button-group {
+            flex-direction: row; /* 【重點】有背景圖時改為左右並排 */
+            justify-content: center;
+            flex-wrap: wrap; /* 空間不夠時自動換行 */
+        }
+
         button {
             box-sizing: border-box;
-            display: block;
-            width: 100%;
-            padding: 12px 15px; /* 稍微縮減按鈕高度以節省空間 */
-            margin: 10px 0;
+            padding: 12px 15px; 
             font-size: 18px;
             cursor: pointer;
             background-color: #7b5e43;
@@ -147,11 +166,24 @@
             transition: all 0.3s ease;
             font-family: inherit;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 100%; /* 預設佔滿寬度 */
         }
+        
+        body[class^="bg-"] .button-group button {
+            flex: 1; /* 左右並排時，平分寬度 */
+            width: auto;
+            background-color: rgba(123, 94, 67, 0.95); /* 稍微帶點透明度的高級感 */
+            border: 1px solid rgba(247, 241, 227, 0.3);
+        }
+
         button:hover {
             background-color: #4a3320;
             transform: translateY(-2px);
         }
+        body[class^="bg-"] .button-group button:hover {
+            background-color: rgba(74, 51, 32, 1);
+        }
+
         body.white-theme button { background-color: #cccccc; color: #ffffff; }
         body.white-theme button:hover { background-color: #999999; }
         body.black-theme button { background-color: #333333; color: #ff0000; }
@@ -160,7 +192,7 @@
         .story-text {
             font-size: 20px;
             margin-bottom: 20px;
-            text-align: left; /* 【修改1】將 justify 改為 left */
+            text-align: left; 
             word-break: normal; 
             overflow-wrap: break-word;
         }
@@ -175,13 +207,13 @@
         
         .dialogue-line {
             display: none; 
-            margin: 12px 0;
+            margin: 10px 0;
             padding: 10px 18px;
             border-radius: 8px;
             width: fit-content;
             max-width: 85%;
             animation: fadeIn 0.5s ease-in-out;
-            text-align: left; /* 【修改1】將 justify 改為 left */
+            text-align: left; 
         }
         .dialogue-left {
             background-color: #e4d5b7;
@@ -206,6 +238,7 @@
         .dialogue-container {
             display: flex;
             flex-direction: column;
+            margin-bottom: 20px;
         }
 
         @media (max-width: 600px) {
@@ -213,6 +246,14 @@
                 width: 95%; 
                 padding: 20px; 
                 border-left: 10px solid #5c4033; 
+            }
+            body[class^="bg-"] #game-container {
+                border-left: none; /* 手機版有圖時也拿掉左框線 */
+                padding: 15px 20px;
+                max-height: 50vh; /* 手機螢幕較小，稍微加高框框 */
+            }
+            body[class^="bg-"] .button-group {
+                flex-direction: column; /* 【保護機制】手機螢幕太窄，強制改回上下排列 */
             }
             .story-text { font-size: 18px; }
             input[type="text"] { width: 140px; margin: 5px 5px; }
@@ -235,8 +276,7 @@
     }
 
     function renderScreen(content) {
-        container.innerHTML = `<div class="fade-in">${content}</div>`;
-        // 切換畫面時，讓對話框的滾動條回到最上面
+        container.innerHTML = `<div class="fade-in" style="display:flex; flex-direction:column; height:100%;">${content}</div>`;
         container.scrollTop = 0; 
     }
 
@@ -249,7 +289,9 @@
                 <br><br>
                 「歡迎來到清末民初的魯鎮。在這個時代，『萬般皆下品，惟有讀書高』。<br>你的一生，將由你的選擇決定……」
             </div>
-            <button onclick="startGame()">進入遊戲</button>
+            <div class="button-group">
+                <button onclick="startGame()">進入遊戲</button>
+            </div>
         `);
     }
 
@@ -268,9 +310,11 @@
             <div class="story-text">
                 孔${playerName}，請選擇你的最初開局：
             </div>
-            <button onclick="stage1_result('poor')">貧困家庭</button>
-            <button onclick="stage1_result('normal')">普通家庭</button>
-            <button onclick="stage1_result('rich')">富貴家庭</button>
+            <div class="button-group">
+                <button onclick="stage1_result('poor')">貧困家庭</button>
+                <button onclick="stage1_result('normal')">普通家庭</button>
+                <button onclick="stage1_result('rich')">富貴家庭</button>
+            </div>
         `);
     }
 
@@ -291,7 +335,9 @@
 
         renderScreen(`
             <div class="story-text">${descText}</div>
-            <button onclick="stage2_result()">歲月流逝，前往科舉考場</button>
+            <div class="button-group">
+                <button onclick="stage2_result()">歲月流逝，前往科舉考場</button>
+            </div>
         `);
     }
 
@@ -309,19 +355,20 @@
         }
 
         let choicesHTML = `
-            <button onclick="stage3()">不甘心，繼續苦讀趕考</button>
-            <button onclick="showJobs()">認清現實，另尋他路</button>
+            <div class="button-group">
+                <button onclick="stage3()">不甘心，繼續苦讀</button>
+                <button onclick="showJobs()">認清現實，另尋他路</button>
         `;
         if (familyBackground === 'rich') {
             choicesHTML += `<button onclick="bribe_result()">嘗試賄賂考官</button>`;
         }
+        choicesHTML += `</div>`;
 
         renderScreen(`
             <h2>命運的試煉「科舉考試」</h2>
             <div class="story-text">
                 ${descText}
             </div>
-            <h3>【選擇你的下一步】</h3>
             ${choicesHTML}
         `);
     }
@@ -334,7 +381,9 @@
             <div class="story-text">
                 偏偏遇到百年難得一見的清官，還好他仍有不忍之心，只判你終身不得參加科舉。
             </div>
-            <button onclick="showJobs()">認清現實，另尋他路</button>
+            <div class="button-group">
+                <button onclick="showJobs()">認清現實，另尋他路</button>
+            </div>
         `);
     }
 
@@ -354,7 +403,9 @@
         renderScreen(`
             <h2>命運的岔路</h2>
             <div class="story-text">${descText}</div>
-            <button onclick="showJobs()">另尋他路</button>
+            <div class="button-group">
+                <button onclick="showJobs()">另尋他路</button>
+            </div>
         `);
     }
 
@@ -363,9 +414,11 @@
         renderScreen(`
             <h2>另尋他路</h2>
             <div class="story-text">你必須找份工作養活自己，你會選擇：</div>
-            <button onclick="jobResult('teacher')">勉強當上蒙塾老師</button>
-            <button onclick="jobResult('copy')">發揮專長，替人抄書</button>
-            <button onclick="jobResult('labor')">脫下長衫，去碼頭做苦力</button>
+            <div class="button-group">
+                <button onclick="jobResult('teacher')">勉強當上蒙塾老師</button>
+                <button onclick="jobResult('copy')">發揮專長，替人抄書</button>
+                <button onclick="jobResult('labor')">脫下長衫，做苦力</button>
+            </div>
         `);
     }
 
@@ -384,7 +437,9 @@
 
         renderScreen(`
             <div class="story-text">${resultText}</div>
-            <button onclick="stage4_intro()">繼續</button>
+            <div class="button-group">
+                <button onclick="stage4_intro()">繼續</button>
+            </div>
         `);
     }
 
@@ -396,7 +451,9 @@
                 孔${playerName}，沒有謀生能力，只能乞討或趁機偷竊。<br><br>
                 穿著長衫、滿臉花白，且夾帶傷痕的你，步履蹣跚，已經好幾天沒吃飯了，肚子餓得發疼，經過咸亨酒店時，聞到陣陣酒香與茴香豆的味道，總讓你垂涎三尺。
             </div>
-            <button onclick="stage4_dialogue_1()">【下一頁】</button>
+            <div class="button-group">
+                <button onclick="stage4_dialogue_1()">【下一頁】</button>
+            </div>
         `);
     }
 
@@ -409,7 +466,9 @@
                 <div class="dialogue-line dialogue-left">某人看著旁邊的描紅紙，笑了一聲說：「上大人孔乙己……就叫孔乙己吧。」</div>
                 <div class="dialogue-line dialogue-plain">眾人一齊大笑。</div>
             </div>
-            <button id="nextBtn1" onclick="showNextDialogue1()">【浮現對話】</button>
+            <div class="button-group">
+                <button id="nextBtn1" onclick="showNextDialogue1()">【浮現對話】</button>
+            </div>
         `);
         showNextDialogue1();
     }
@@ -419,7 +478,7 @@
         if (dialogueIndex < lines.length) {
             lines[dialogueIndex].style.display = 'block';
             dialogueIndex++;
-            container.scrollTop = container.scrollHeight; // 新增：對話浮現時自動往下捲動
+            container.scrollTop = container.scrollHeight; 
             if (dialogueIndex === lines.length) {
                 const btn = document.getElementById('nextBtn1');
                 btn.innerText = "【下一頁】";
@@ -440,7 +499,9 @@
                 <div class="dialogue-line dialogue-left">「孔乙己！還欠十九個錢呢！」</div>
                 <div class="dialogue-line dialogue-right">「……」</div>
             </div>
-            <button id="nextBtn2" onclick="showNextDialogue2()">【浮現對話】</button>
+            <div class="button-group">
+                <button id="nextBtn2" onclick="showNextDialogue2()">【浮現對話】</button>
+            </div>
         `);
         showNextDialogue2();
     }
@@ -465,7 +526,9 @@
             <div class="story-text" style="font-size: 32px; font-weight: bold; margin-top: 20vh; text-align: center;">
                 「我……我是誰？」
             </div>
-            <button onclick="stage4_choices()" style="margin-top: 30vh;">【下一頁】</button>
+            <div class="button-group" style="margin-top: auto;">
+                <button onclick="stage4_choices()">【下一頁】</button>
+            </div>
         `);
     }
 
@@ -475,9 +538,11 @@
             <div class="story-text">
                 孔乙己，你現在已經沒有現錢，但酒店裡的十九個錢還欠著，你又快要走向絕路，你會怎麼做？
             </div>
-            <button onclick="ending_ding_1()">去丁舉人家裡偷點值錢的東西</button>
-            <button onclick="ending_baozi()">去市場偷平民小販的包子</button>
-            <button onclick="ending_beg_1()">堅持讀書人的氣節，絕不偷竊，上街乞討</button>
+            <div class="button-group">
+                <button onclick="ending_ding_1()">去丁舉人家偷東西</button>
+                <button onclick="ending_baozi()">去偷小販的包子</button>
+                <button onclick="ending_beg_1()">堅持氣節，上街乞討</button>
+            </div>
         `);
     }
 
@@ -489,7 +554,9 @@
             <div class="story-text">
                 你潛入丁舉人家。被發現後，丁舉人動用私刑，寫了服辯，還打了大半夜，你的腿被打折了。
             </div>
-            <button onclick="ending_ding_2()">【下一頁】</button>
+            <div class="button-group">
+                <button onclick="ending_ding_2()">【下一頁】</button>
+            </div>
         `);
     }
 
@@ -504,7 +571,9 @@
                 <div class="dialogue-line dialogue-left">「孔乙己，你又偸了東西了！」</div>
                 <div class="dialogue-line dialogue-left">「取笑？要是不偸，怎麽會打斷腿？」</div>
             </div>
-            <button id="nextBtn3" onclick="showNextDialogue3()">【浮現對話】</button>
+            <div class="button-group">
+                <button id="nextBtn3" onclick="showNextDialogue3()">【浮現對話】</button>
+            </div>
         `);
         showNextDialogue3();
     }
@@ -528,7 +597,9 @@
             <div class="story-text">
                 你用充滿泥濘的手，顫抖地掏出四文大錢，用盡力氣放在夥計手裡，隨後慢慢的、慢慢的消失在充滿歡笑聲的世界。
             </div>
-            <button onclick="initGame()">重新開始</button>
+            <div class="button-group">
+                <button onclick="initGame()">重新開始</button>
+            </div>
         `);
     }
 
@@ -540,7 +611,9 @@
             <div class="story-text">
                 你被小販抓住。周圍的群眾不但沒有同情遇到你的，反而圍成一圈嘲笑你、毆打你。你在眾人的哄笑聲中，被打得奄奄一息，隔天被發現凍死在街頭。
             </div>
-            <button onclick="initGame()">重新開始</button>
+            <div class="button-group">
+                <button onclick="initGame()">重新開始</button>
+            </div>
         `);
     }
 
@@ -552,7 +625,9 @@
             <div class="story-text">
                 你穿著破長衫在街頭乞討，但因為你總是滿口「之乎者也」，路人覺得你是個瘋子，沒人願意施捨給你。
             </div>
-            <button onclick="ending_beg_2()">【下一頁】</button>
+            <div class="button-group">
+                <button onclick="ending_beg_2()">【下一頁】</button>
+            </div>
         `);
     }
 
@@ -564,7 +639,9 @@
                 <div class="dialogue-line dialogue-left">「孔乙己，你臉上又添上新傷疤了！」</div>
                 <div class="dialogue-line dialogue-left">「孔乙己，你當眞認識字麽？你怎的連半個秀才也撈不到呢？」</div>
             </div>
-            <button id="nextBtn4" onclick="showNextDialogue4()">【浮現對話】</button>
+            <div class="button-group">
+                <button id="nextBtn4" onclick="showNextDialogue4()">【浮現對話】</button>
+            </div>
         `);
         showNextDialogue4();
     }
@@ -588,7 +665,9 @@
             <div class="story-text">
                 下著雪的夜晚，你餓死在眾人的視線外、潔白的雪堆裡。
             </div>
-            <button onclick="ending_beg_4()">【下一頁】</button>
+            <div class="button-group">
+                <button onclick="ending_beg_4()">【下一頁】</button>
+            </div>
         `);
     }
 
@@ -598,7 +677,9 @@
             <div class="story-text" style="font-size: 32px; font-weight: bold; margin-top: 20vh; text-align: center;">
                 「還欠十九個錢呢！」
             </div>
-            <button onclick="initGame()" style="margin-top: 20vh;">重新開始</button>
+            <div class="button-group" style="margin-top: 20vh;">
+                <button onclick="initGame()">重新開始</button>
+            </div>
         `);
     }
 
