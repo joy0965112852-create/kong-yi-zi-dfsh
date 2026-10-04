@@ -33,7 +33,7 @@
             text-justify: inter-ideograph;
             border: 1px solid #a38c6d;
             border-left: 15px solid #5c4033; 
-            transition: background-color 0.5s, border 0.5s, box-shadow 0.5s;
+            transition: all 0.5s ease;
             max-height: 85vh;
             overflow-y: auto;
         }
@@ -74,13 +74,24 @@
             background-attachment: fixed;
         }
 
-        /* --- 只要是上面這幾種有背景圖的情境，框框都會變成半透明白色 --- */
+        /* --- 只要是上面這幾種有背景圖的情境，框框都會套用復古毛玻璃效果 --- */
         body.bg-stage1 #game-container,
         body.bg-poor #game-container,
         body.bg-normal #game-container,
         body.bg-rich #game-container {
-            background-color: rgba(255, 255, 255, 0.85); 
-            border-left: 15px solid rgba(92, 64, 51, 0.85); 
+            /* 將純白改為帶有古籍質感的「微黃米色」，透明度稍微提高 */
+            background-color: rgba(245, 238, 224, 0.85); 
+            
+            /* 加入「毛玻璃」效果，讓透過去的背景稍微模糊，增加質感且凸顯文字 */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            
+            /* 邊框稍微改細一點、圓潤一點，減少死硬感 */
+            border-left: 10px solid rgba(92, 64, 51, 0.9);
+            border-radius: 8px;
+            
+            /* 加強一點外陰影，讓對話框更有「浮在背景上」的立體感 */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
         }
 
         body.white-theme {
