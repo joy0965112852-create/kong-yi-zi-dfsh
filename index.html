@@ -38,19 +38,49 @@
             overflow-y: auto;
         }
 
-        /* --- 新增：將圖片設定為整個網頁(body)的背景 --- */
+        /* --- 開局選擇的背景 --- */
         body.bg-stage1 {
             background-image: url('https://upload.cc/i1/2026/10/04/ZB3UFN.jpeg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            background-attachment: fixed; /* 讓背景固定，滑動時不會跑掉 */
+            background-attachment: fixed;
         }
 
-        /* --- 新增：當有背景圖時，讓中間的問題框框變成半透明白色 --- */
-        body.bg-stage1 #game-container {
-            background-color: rgba(255, 255, 255, 0.85); /* 85%不透明度的白色，若覺得太透可改成 0.9 或 0.95 */
-            border-left: 15px solid rgba(92, 64, 51, 0.85); /* 左側粗邊框也稍微配合半透明 */
+        /* --- 貧困家庭的背景 --- */
+        body.bg-poor {
+            background-image: url('https://upload.cc/i1/2026/10/04/bd5i9S.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* --- 普通家庭的背景 --- */
+        body.bg-normal {
+            background-image: url('https://upload.cc/i1/2026/10/04/kLySd3.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* --- 富貴家庭的背景 --- */
+        body.bg-rich {
+            background-image: url('https://upload.cc/i1/2026/10/04/hfMckU.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* --- 只要是上面這幾種有背景圖的情境，框框都會變成半透明白色 --- */
+        body.bg-stage1 #game-container,
+        body.bg-poor #game-container,
+        body.bg-normal #game-container,
+        body.bg-rich #game-container {
+            background-color: rgba(255, 255, 255, 0.85); 
+            border-left: 15px solid rgba(92, 64, 51, 0.85); 
         }
 
         body.white-theme {
@@ -233,6 +263,7 @@
     }
 
     function stage1() {
+        resetTheme();
         // 將背景圖片套用到整個網頁 (body) 上
         document.body.classList.add('bg-stage1');
         
@@ -248,8 +279,9 @@
     }
 
     function stage1_result(type) {
-        // 離開此關卡時，移除網頁背景
-        document.body.classList.remove('bg-stage1');
+        // 依照玩家選擇的 type (poor/normal/rich)，重置背景後加上對應的背景類別
+        resetTheme();
+        document.body.classList.add('bg-' + type);
         
         familyBackground = type;
         let descText = "";
@@ -269,6 +301,9 @@
     }
 
     function stage2_result() {
+        // 進入這關時，先清除上一關的背景，恢復乾淨樣式
+        resetTheme();
+
         let descText = "";
         if (familyBackground === 'poor') {
             descText = "你滿懷希望地去參加鄉試，榜單公布那天，你在人群中尋找自己的名字……<br><br>已經飢腸轆轆的你，使勁所有力氣看穿榜單，但卻找不到自己的名字，名落孫山。";
