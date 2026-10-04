@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>〈孔ＯＯ〉</title>
+    <title>遊戲名稱：〈孔ＯＯ〉</title>
     <style>
         body {
             font-family: '標楷體', 'Times New Roman', serif;
@@ -27,8 +27,8 @@
             padding: 40px;
             border-radius: 4px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            max-width: 750px; 
-            width: 90%;
+            max-width: 900px; /* 【調整】無背景圖時的寬度加寬 */
+            width: 95%;
             text-align: left; 
             border: 1px solid #a38c6d;
             border-left: 15px solid #5c4033; 
@@ -38,7 +38,7 @@
         }
 
         /* --- 背景圖片設定區 --- */
-        body.bg-start { background-image: url('https://upload.cc/i1/2026/10/04/d4SnRK.jpeg'); } /* 新增：開頭背景 */
+        body.bg-start { background-image: url('https://upload.cc/i1/2026/10/04/d4SnRK.jpeg'); }
         body.bg-stage1 { background-image: url('https://upload.cc/i1/2026/10/04/ZB3UFN.jpeg'); }
         body.bg-poor { background-image: url('https://upload.cc/i1/2026/10/04/bd5i9S.jpeg'); }
         body.bg-normal { background-image: url('https://upload.cc/i1/2026/10/04/kLySd3.jpeg'); }
@@ -48,8 +48,8 @@
         body.bg-job-copy { background-image: url('https://upload.cc/i1/2026/10/04/TgfLqr.jpeg'); }
         body.bg-job-labor { background-image: url('https://upload.cc/i1/2026/10/04/jby0Ef.jpeg'); }
         body.bg-bribe { background-image: url('https://upload.cc/i1/2026/10/04/9gFQEM.jpeg'); }
-        body.bg-ending-ding-1 { background-image: url('https://upload.cc/i1/2026/10/04/D5iCzu.jpeg'); } /* 新增：點選丁舉人選項後 */
-        body.bg-ending-ding-3 { background-image: url('https://upload.cc/i1/2026/10/04/MO5Rmy.jpeg'); } /* 修改：付四文大錢時 */
+        body.bg-ending-ding-1 { background-image: url('https://upload.cc/i1/2026/10/04/D5iCzu.jpeg'); } 
+        body.bg-ending-ding-3 { background-image: url('https://upload.cc/i1/2026/10/04/MO5Rmy.jpeg'); } 
         body.bg-ending-baozi { background-image: url('https://upload.cc/i1/2026/10/04/OFRi80.jpeg'); }
         body.bg-ending-beg { background-image: url('https://upload.cc/i1/2026/10/04/Ar0oiX.jpeg'); }
 
@@ -74,10 +74,10 @@
             border-radius: 12px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.6); 
             
-            width: 96%; 
-            max-width: 1100px;
+            width: 98%; /* 【調整】寬度幾乎佔滿 */
+            max-width: 1400px; /* 【調整】最大寬度巨幅提升 */
             min-height: 25vh;
-            max-height: 40vh; 
+            max-height: 60vh; /* 【調整】放寬高度限制，避免出現捲動條 */
             padding: 25px 35px;
             
             display: flex;
@@ -249,7 +249,7 @@
             body[class^="bg-"] #game-container {
                 border-left: none;
                 padding: 15px 20px;
-                max-height: 50vh; 
+                max-height: 70vh; /* 【調整】手機版也稍微放寬高度 */
             }
             body[class^="bg-"] .button-group {
                 flex-direction: column; 
@@ -281,10 +281,10 @@
 
     function initGame() {
         resetTheme();
-        document.body.classList.add('bg-start'); // 加入開場背景圖
+        document.body.classList.add('bg-start'); 
         
         renderScreen(`
-            <h1>孔ＯＯ</h1>
+            <h1>遊戲名稱：〈孔ＯＯ〉</h1>
             <div class="story-text" style="text-align: center;">
                 請輸入你的名字：孔 <input type="text" id="nameInput" placeholder="輸入單名或雙名">
                 <br><br>
@@ -549,7 +549,7 @@
 
     function ending_ding_1() {
         resetTheme();
-        document.body.classList.add('bg-ending-ding-1'); // 點選「丁舉人」選項後顯示對應的背景
+        document.body.classList.add('bg-ending-ding-1'); 
 
         renderScreen(`
             <div class="story-text">
@@ -595,7 +595,7 @@
 
     function ending_ding_3() {
         resetTheme();
-        document.body.classList.add('bg-ending-ding-3'); // 顯示掏出四文大錢的結局背景
+        document.body.classList.add('bg-ending-ding-3'); 
 
         renderScreen(`
             <div class="story-text">
@@ -667,7 +667,7 @@
     function ending_beg_3() {
         renderScreen(`
             <div class="story-text">
-                下著雨的夜晚，你餓死在眾人的視線外、冰冷的泥濘裡。
+                下著雪的夜晚，你餓死在眾人的視線外、潔白的雪堆裡。
             </div>
             <div class="button-group">
                 <button onclick="ending_beg_4()">【下一頁】</button>
