@@ -38,59 +38,42 @@
             overflow-y: auto;
         }
 
-        /* --- 開局選擇的背景 --- */
-        body.bg-stage1 {
-            background-image: url('https://upload.cc/i1/2026/10/04/ZB3UFN.jpeg');
+        /* --- 背景圖片設定區 --- */
+        body.bg-stage1 { background-image: url('https://upload.cc/i1/2026/10/04/ZB3UFN.jpeg'); }
+        body.bg-poor { background-image: url('https://upload.cc/i1/2026/10/04/bd5i9S.jpeg'); }
+        body.bg-normal { background-image: url('https://upload.cc/i1/2026/10/04/kLySd3.jpeg'); }
+        body.bg-rich { background-image: url('https://upload.cc/i1/2026/10/04/hfMckU.jpeg'); }
+        
+        /* 新增的背景圖 */
+        body.bg-exam-fail { background-image: url('https://upload.cc/i1/2026/10/04/PTwfjC.jpeg'); }
+        body.bg-job-teacher { background-image: url('https://upload.cc/i1/2026/10/04/7gyHVf.jpeg'); }
+        body.bg-job-copy { background-image: url('https://upload.cc/i1/2026/10/04/TgfLqr.jpeg'); }
+        body.bg-job-labor { background-image: url('https://upload.cc/i1/2026/10/04/jby0Ef.jpeg'); }
+        body.bg-ending-ding { background-image: url('https://upload.cc/i1/2026/10/04/MO5Rmy.jpeg'); }
+        body.bg-ending-baozi { background-image: url('https://upload.cc/i1/2026/10/04/OFRi80.jpeg'); }
+        body.bg-ending-beg { background-image: url('https://upload.cc/i1/2026/10/04/Ar0oiX.jpeg'); }
+        body.bg-bribe { background-image: url('https://upload.cc/i1/2026/10/04/9gFQEM.jpeg'); }
+
+        /* 統一設定所有背景圖的顯示方式（填滿畫面、置中、固定） */
+        body[class^="bg-"] {
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
 
-        /* --- 貧困家庭的背景 --- */
-        body.bg-poor {
-            background-image: url('https://upload.cc/i1/2026/10/04/bd5i9S.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
-
-        /* --- 普通家庭的背景 --- */
-        body.bg-normal {
-            background-image: url('https://upload.cc/i1/2026/10/04/kLySd3.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
-
-        /* --- 富貴家庭的背景 --- */
-        body.bg-rich {
-            background-image: url('https://upload.cc/i1/2026/10/04/hfMckU.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
-
-        /* --- 只要是上面這幾種有背景圖的情境，框框都會套用復古毛玻璃效果 --- */
-        body.bg-stage1 #game-container,
-        body.bg-poor #game-container,
-        body.bg-normal #game-container,
-        body.bg-rich #game-container {
-            /* 將純白改為帶有古籍質感的「微黃米色」，透明度稍微提高 */
+        /* --- 只要是有背景圖的情境，框框都會套用復古毛玻璃效果 --- */
+        body[class^="bg-"] #game-container {
+            /* 帶有古籍質感的「微黃米色」半透明底色 */
             background-color: rgba(245, 238, 224, 0.85); 
             
-            /* 加入「毛玻璃」效果，讓透過去的背景稍微模糊，增加質感且凸顯文字 */
+            /* 毛玻璃效果 */
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             
-            /* 邊框稍微改細一點、圓潤一點，減少死硬感 */
+            /* 邊框與立體感 */
             border-left: 10px solid rgba(92, 64, 51, 0.9);
             border-radius: 8px;
-            
-            /* 加強一點外陰影，讓對話框更有「浮在背景上」的立體感 */
             box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
         }
 
@@ -246,7 +229,6 @@
     const container = document.getElementById('game-container');
 
     function resetTheme() {
-        // 清除 body 上的所有 class，確保背景與主題重置
         document.body.className = '';
     }
 
@@ -275,7 +257,6 @@
 
     function stage1() {
         resetTheme();
-        // 將背景圖片套用到整個網頁 (body) 上
         document.body.classList.add('bg-stage1');
         
         renderScreen(`
@@ -290,7 +271,6 @@
     }
 
     function stage1_result(type) {
-        // 依照玩家選擇的 type (poor/normal/rich)，重置背景後加上對應的背景類別
         resetTheme();
         document.body.classList.add('bg-' + type);
         
@@ -312,8 +292,8 @@
     }
 
     function stage2_result() {
-        // 進入這關時，先清除上一關的背景，恢復乾淨樣式
         resetTheme();
+        document.body.classList.add('bg-exam-fail'); // 加入科舉失敗背景
 
         let descText = "";
         if (familyBackground === 'poor') {
@@ -343,6 +323,9 @@
     }
 
     function bribe_result() {
+        resetTheme();
+        document.body.classList.add('bg-bribe'); // 加入賄賂背景
+
         renderScreen(`
             <div class="story-text">
                 偏偏遇到百年難得一見的清官，還好他仍有不忍之心，只判你終身不得參加科舉。
@@ -352,6 +335,9 @@
     }
 
     function stage3() {
+        resetTheme();
+        document.body.classList.add('bg-exam-fail'); // 再次苦讀失敗一樣套用落榜圖
+
         let descText = "";
         if (familyBackground === 'poor') {
             descText = "你為了準備科舉，卻買不起昂貴的書籍與紙筆，於是鋌而走險去偷書。被抓到後，你堅稱「竊書不能算偷」，卻還是遭到眾人毒打。你雖保住性命，卻落得滿身是傷，最終只能流落街頭。";
@@ -369,6 +355,7 @@
     }
 
     function showJobs() {
+        resetTheme(); // 清除背景，回到乾淨畫面做選擇
         renderScreen(`
             <h2>另尋他路</h2>
             <div class="story-text">你必須找份工作養活自己，你會選擇：</div>
@@ -379,6 +366,9 @@
     }
 
     function jobResult(jobType) {
+        resetTheme();
+        document.body.classList.add('bg-job-' + jobType); // 根據選擇載入 老師/抄書/做工 背景圖
+
         let resultText = "";
         if (jobType === 'teacher') {
             resultText = "你堅持教小孩「回字有四種寫法」，家長認為你教的東西對生活毫無幫助。加上你名聲實在壞得一敗塗地，最終被辭退。";
@@ -395,6 +385,7 @@
     }
 
     function stage4_intro() {
+        resetTheme();
         renderScreen(`
             <h2>最後的掙扎</h2>
             <div class="story-text">
@@ -485,6 +476,9 @@
     }
 
     function ending_ding_1() {
+        resetTheme();
+        document.body.classList.add('bg-ending-ding'); // 丁舉人背景
+
         renderScreen(`
             <div class="story-text">
                 你潛入丁舉人家。被發現後，丁舉人動用私刑，寫了服辯，還打了大半夜，你的腿被打折了。
@@ -532,6 +526,9 @@
     }
 
     function ending_baozi() {
+        resetTheme();
+        document.body.classList.add('bg-ending-baozi'); // 偷包子背景
+
         renderScreen(`
             <div class="story-text">
                 你被小販抓住。周圍的群眾不但沒有同情遇到你的，反而圍成一圈嘲笑你、毆打你。你在眾人的哄笑聲中，被打得奄奄一息，隔天被發現凍死在街頭。
@@ -541,6 +538,9 @@
     }
 
     function ending_beg_1() {
+        resetTheme();
+        document.body.classList.add('bg-ending-beg'); // 乞討背景
+
         renderScreen(`
             <div class="story-text">
                 你穿著破長衫在街頭乞討，但因為你總是滿口「之乎者也」，路人覺得你是個瘋子，沒人願意施捨給你。
