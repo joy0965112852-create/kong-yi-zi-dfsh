@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>孔ＯＯ</title>
+    <title>遊戲名稱：〈孔ＯＯ〉</title>
     <style>
         body {
             font-family: '標楷體', 'Times New Roman', serif;
@@ -21,13 +21,14 @@
             transition: background-color 0.5s, color 0.5s;
         }
         #game-container {
+            box-sizing: border-box; 
             background-color: #f7f1e3;
             padding: 40px;
             border-radius: 4px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             max-width: 750px; 
             width: 90%;
-            text-align: justify; /* 確保整體內容左右對齊 */
+            text-align: justify; 
             text-justify: inter-ideograph;
             border: 1px solid #a38c6d;
             border-left: 15px solid #5c4033; 
@@ -35,6 +36,15 @@
             max-height: 85vh;
             overflow-y: auto;
         }
+
+        /* 新增：特定關卡的背景樣式 */
+        .bg-stage1 {
+            background-image: linear-gradient(rgba(247, 241, 227, 0.85), rgba(247, 241, 227, 0.85)), url('kongyizi-born.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
         body.white-theme {
             background: #ffffff;
         }
@@ -66,6 +76,7 @@
             border: none;
         }
         input[type="text"] {
+            box-sizing: border-box;
             width: 200px; 
             padding: 8px 12px;
             margin: 0 10px;
@@ -76,6 +87,7 @@
             background-color: #fffaf0;
         }
         button {
+            box-sizing: border-box;
             display: block;
             width: 100%;
             padding: 15px;
@@ -153,6 +165,22 @@
             display: flex;
             flex-direction: column;
         }
+
+        /* 針對手機版（螢幕寬度 600px 以下）的最佳化設定 */
+        @media (max-width: 600px) {
+            #game-container {
+                width: 92%; 
+                padding: 25px 20px; 
+                border-left: 10px solid #5c4033; 
+            }
+            .story-text {
+                font-size: 18px; 
+            }
+            input[type="text"] {
+                width: 140px; 
+                margin: 5px 5px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -168,6 +196,7 @@
 
     function resetTheme() {
         document.body.className = '';
+        container.classList.remove('bg-stage1'); // 確保背景圖在需要時被清除
     }
 
     function renderScreen(content) {
@@ -177,9 +206,9 @@
     function initGame() {
         resetTheme();
         renderScreen(`
-            <h1>孔ＯＯ</h1>
+            <h1>遊戲名稱：〈孔ＯＯ〉</h1>
             <div class="story-text" style="text-align: center;">
-                請輸入你的名字：孔 <input type="text" id="nameInput" placeholder="請輸入單名或雙名">
+                請輸入你的名字：孔 <input type="text" id="nameInput" placeholder="輸入單名或雙名">
                 <br><br>
                 「歡迎來到清末民初的魯鎮。在這個時代，『萬般皆下品，惟有讀書高』。<br>你的一生，將由你的選擇決定……」
             </div>
@@ -194,6 +223,9 @@
     }
 
     function stage1() {
+        // 加入第一關的背景圖片
+        container.classList.add('bg-stage1');
+        
         renderScreen(`
             <h2>出身與啟蒙</h2>
             <div class="story-text">
@@ -206,6 +238,9 @@
     }
 
     function stage1_result(type) {
+        // 離開此關卡時，移除背景圖片，以免帶到後面的畫面
+        container.classList.remove('bg-stage1');
+        
         familyBackground = type;
         let descText = "";
         
@@ -238,7 +273,7 @@
             <button onclick="showJobs()">認清現實，另尋他路</button>
         `;
         if (familyBackground === 'rich') {
-            choicesHTML += `<button onclick="bribe_result()">給考官溫卷</button>`;
+            choicesHTML += `<button onclick="bribe_result()">嘗試賄賂考官</button>`;
         }
 
         renderScreen(`
