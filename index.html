@@ -18,8 +18,9 @@
             margin: 0;
             line-height: 1.8;
             letter-spacing: 1px;
-            transition: background-color 0.5s, color 0.5s;
+            transition: background-color 0.5s, color 0.5s, background-image 0.5s;
         }
+        
         #game-container {
             box-sizing: border-box; 
             background-color: #f7f1e3;
@@ -37,16 +38,24 @@
             overflow-y: auto;
         }
 
-        /* 已經更新為 upload.cc 的專屬圖片網址 */
-        .bg-stage1 {
-            background-image: linear-gradient(rgba(247, 241, 227, 0.85), rgba(247, 241, 227, 0.85)), url('https://upload.cc/i1/2026/10/04/ZB3UFN.jpeg');
+        /* --- 新增：將圖片設定為整個網頁(body)的背景 --- */
+        body.bg-stage1 {
+            background-image: url('https://upload.cc/i1/2026/10/04/ZB3UFN.jpeg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            background-attachment: fixed; /* 讓背景固定，滑動時不會跑掉 */
+        }
+
+        /* --- 新增：當有背景圖時，讓中間的問題框框變成半透明白色 --- */
+        body.bg-stage1 #game-container {
+            background-color: rgba(255, 255, 255, 0.85); /* 85%不透明度的白色，若覺得太透可改成 0.9 或 0.95 */
+            border-left: 15px solid rgba(92, 64, 51, 0.85); /* 左側粗邊框也稍微配合半透明 */
         }
 
         body.white-theme {
             background: #ffffff;
+            background-image: none;
         }
         body.white-theme #game-container {
             background-color: #ffffff;
@@ -57,6 +66,7 @@
         }
         body.black-theme {
             background: #000000;
+            background-image: none;
         }
         body.black-theme #game-container {
             background-color: #000000;
@@ -195,8 +205,8 @@
     const container = document.getElementById('game-container');
 
     function resetTheme() {
+        // 清除 body 上的所有 class，確保背景與主題重置
         document.body.className = '';
-        container.classList.remove('bg-stage1'); // 確保背景圖在需要時被清除
     }
 
     function renderScreen(content) {
@@ -223,8 +233,8 @@
     }
 
     function stage1() {
-        // 加入第一關的背景圖片
-        container.classList.add('bg-stage1');
+        // 將背景圖片套用到整個網頁 (body) 上
+        document.body.classList.add('bg-stage1');
         
         renderScreen(`
             <h2>出身與啟蒙</h2>
@@ -238,8 +248,8 @@
     }
 
     function stage1_result(type) {
-        // 離開此關卡時，移除背景圖片，以免帶到後面的畫面
-        container.classList.remove('bg-stage1');
+        // 離開此關卡時，移除網頁背景
+        document.body.classList.remove('bg-stage1');
         
         familyBackground = type;
         let descText = "";
@@ -478,7 +488,7 @@
     function ending_baozi() {
         renderScreen(`
             <div class="story-text">
-                你被小販抓住。周圍的群眾不但沒有同情你，反而圍成一圈嘲笑你、毆打你。你在眾人的哄笑聲中，被打得奄奄一息，隔天被發現凍死在街頭。
+                你被小販抓住。周圍的群眾不但沒有同情遇到你的，反而圍成一圈嘲笑你、毆打你。你在眾人的哄笑聲中，被打得奄奄一息，隔天被發現凍死在街頭。
             </div>
             <button onclick="initGame()">重新開始</button>
         `);
