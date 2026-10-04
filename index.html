@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>遊戲名稱：〈孔ＯＯ〉</title>
+    <title>〈孔ＯＯ〉</title>
     <style>
         body {
             font-family: '標楷體', 'Times New Roman', serif;
@@ -284,7 +284,7 @@
         document.body.classList.add('bg-start'); 
         
         renderScreen(`
-            <h1>遊戲名稱：〈孔ＯＯ〉</h1>
+            <h1>〈孔ＯＯ〉</h1>
             <div class="story-text" style="text-align: center;">
                 請輸入你的名字：孔 <input type="text" id="nameInput" placeholder="輸入單名或雙名">
                 <br><br>
@@ -366,7 +366,7 @@
         choicesHTML += `</div>`;
 
         renderScreen(`
-            <h2>命運的試煉「科舉考試」</h2>
+            <h2>命運的試煉——科舉考試</h2>
             <div class="story-text">
                 ${descText}
             </div>
@@ -496,7 +496,7 @@
                 <div class="dialogue-line dialogue-left">「孔乙己，你臉上又添上新傷疤了！」</div>
                 <div class="dialogue-line dialogue-right">「我是……我是孔${playerName}！不是孔乙己！」</div>
                 <div class="dialogue-line dialogue-left">「孔乙己，你當眞認識字麽？你怎的連半個秀才也撈不到呢？」</div>
-                <div class="dialogue-line dialogue-right">「我、我……不是孔乙己！」</div>
+                <div class="dialogue-line dialogue-right">「我、我……不是孔乙己……」</div>
                 <div class="dialogue-line dialogue-left">「孔乙己！還欠十九個錢呢！」</div>
                 <div class="dialogue-line dialogue-right">「……」</div>
             </div>
@@ -667,7 +667,7 @@
     function ending_beg_3() {
         renderScreen(`
             <div class="story-text">
-                下著雪的夜晚，你餓死在眾人的視線外、潔白的雪堆裡。
+                下著雨的夜晚，你餓死在眾人的笑聲外、無盡的寂靜裡。
             </div>
             <div class="button-group">
                 <button onclick="ending_beg_4()">【下一頁】</button>
