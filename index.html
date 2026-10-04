@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>〈孔ＯＯ〉</title>
+    <title>遊戲名稱：〈孔ＯＯ〉</title>
     <style>
         body {
             font-family: '標楷體', 'Times New Roman', serif;
@@ -19,6 +19,7 @@
             line-height: 1.8;
             letter-spacing: 1px;
             transition: background-color 0.5s, color 0.5s, background-image 0.5s;
+            overflow: hidden; /* 防止全螢幕時出現外層捲動條 */
         }
         
         #game-container {
@@ -27,7 +28,7 @@
             padding: 40px;
             border-radius: 4px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            max-width: 900px; /* 【調整】無背景圖時的寬度加寬 */
+            max-width: 900px; 
             width: 95%;
             text-align: left; 
             border: 1px solid #a38c6d;
@@ -53,7 +54,7 @@
         body.bg-ending-baozi { background-image: url('https://upload.cc/i1/2026/10/04/OFRi80.jpeg'); }
         body.bg-ending-beg { background-image: url('https://upload.cc/i1/2026/10/04/Ar0oiX.jpeg'); }
 
-        /* 統一設定所有背景圖的顯示方式，並將內容推至「畫面最下方」 */
+        /* 有背景圖時的排版設定 */
         body[class^="bg-"] {
             background-size: cover;
             background-position: center;
@@ -63,7 +64,6 @@
             padding-bottom: 2vh; 
         }
 
-        /* 當有背景圖時，把對話框變成置底長條狀 */
         body[class^="bg-"] #game-container {
             background-color: rgba(245, 238, 224, 0.85); 
             backdrop-filter: blur(4px);
@@ -74,10 +74,10 @@
             border-radius: 12px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.6); 
             
-            width: 98%; /* 【調整】寬度幾乎佔滿 */
-            max-width: 1400px; /* 【調整】最大寬度巨幅提升 */
+            width: 98%; 
+            max-width: 1400px; 
             min-height: 25vh;
-            max-height: 60vh; /* 【調整】放寬高度限制，避免出現捲動條 */
+            max-height: 60vh; 
             padding: 25px 35px;
             
             display: flex;
@@ -122,9 +122,7 @@
             margin-bottom: 15px;
         }
         body.white-theme h1, body.white-theme h2,
-        body.black-theme h1, body.black-theme h2 {
-            border: none;
-        }
+        body.black-theme h1, body.black-theme h2 { border: none; }
         
         input[type="text"] {
             box-sizing: border-box;
@@ -138,7 +136,7 @@
             background-color: #fffaf0;
         }
         
-        /* --- 按鈕與選項排列系統 --- */
+        /* --- 按鈕與選項 --- */
         .button-group {
             display: flex;
             flex-direction: column;
@@ -183,11 +181,12 @@
             background-color: rgba(74, 51, 32, 1);
         }
 
-        body.white-theme button { background-color: #cccccc; color: #ffffff; }
-        body.white-theme button:hover { background-color: #999999; }
-        body.black-theme button { background-color: #333333; color: #ff0000; }
-        body.black-theme button:hover { background-color: #555555; }
-        
+        .btn-highlight {
+            background-color: #5c4033;
+            border: 2px solid #e8dcc4;
+        }
+
+        /* --- 文字與對話 --- */
         .story-text {
             font-size: 20px;
             margin-bottom: 20px;
@@ -196,9 +195,7 @@
             overflow-wrap: break-word;
         }
         
-        .fade-in {
-            animation: fadeIn 0.6s ease-in-out;
-        }
+        .fade-in { animation: fadeIn 0.6s ease-in-out; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -240,6 +237,33 @@
             margin-bottom: 20px;
         }
 
+        /* --- 手機橫向防呆提示 --- */
+        #rotate-prompt {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            color: #fff;
+            z-index: 9999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 24px;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        /* 當啟用強制橫向模式，且螢幕為直向(portrait)時，顯示提示 */
+        @media screen and (orientation: portrait) and (max-width: 900px) {
+            html.landscape-locked #rotate-prompt {
+                display: flex;
+            }
+            body[class^="bg-"] .button-group {
+                flex-direction: column; 
+            }
+        }
+
         @media (max-width: 600px) {
             #game-container {
                 width: 95%; 
@@ -249,10 +273,7 @@
             body[class^="bg-"] #game-container {
                 border-left: none;
                 padding: 15px 20px;
-                max-height: 70vh; /* 【調整】手機版也稍微放寬高度 */
-            }
-            body[class^="bg-"] .button-group {
-                flex-direction: column; 
+                max-height: 70vh; 
             }
             .story-text { font-size: 18px; }
             input[type="text"] { width: 140px; margin: 5px 5px; }
@@ -260,6 +281,12 @@
     </style>
 </head>
 <body>
+
+<!-- 手機未旋轉時的防呆遮罩 -->
+<div id="rotate-prompt">
+    <div style="font-size: 50px; margin-bottom: 20px;">📱🔄</div>
+    <div>偵測到您正在使用直向螢幕<br><br>請將手機旋轉為「橫向」<br>以獲得最佳的沉浸式遊戲體驗</div>
+</div>
 
 <div id="game-container" class="fade-in">
 </div>
@@ -279,24 +306,52 @@
         container.scrollTop = 0; 
     }
 
+    /* 啟動全螢幕與橫向鎖定 */
+    function enableFullscreen() {
+        document.documentElement.classList.add('landscape-locked'); // 開啟防呆提示機制
+        const docElm = document.documentElement;
+        
+        // 請求全螢幕
+        if (docElm.requestFullscreen) {
+            docElm.requestFullscreen().catch(err => console.log(err));
+        } else if (docElm.webkitRequestFullscreen) { /* Safari */
+            docElm.webkitRequestFullscreen();
+        } else if (docElm.msRequestFullscreen) { /* IE11 */
+            docElm.msRequestFullscreen();
+        }
+
+        // 嘗試強制鎖定為橫向 (部分瀏覽器支援)
+        if (screen.orientation && screen.orientation.lock) {
+            screen.orientation.lock('landscape').catch(err => console.log("Orientation lock failed: ", err));
+        }
+    }
+
     function initGame() {
         resetTheme();
         document.body.classList.add('bg-start'); 
         
         renderScreen(`
-            <h1>〈孔ＯＯ〉</h1>
+            <h1>遊戲名稱：〈孔ＯＯ〉</h1>
             <div class="story-text" style="text-align: center;">
                 請輸入你的名字：孔 <input type="text" id="nameInput" placeholder="輸入單名或雙名">
                 <br><br>
                 「歡迎來到清末民初的魯鎮。在這個時代，『萬般皆下品，惟有讀書高』。<br>你的一生，將由你的選擇決定……」
             </div>
-            <div class="button-group">
-                <button onclick="startGame()">進入遊戲</button>
+            <div class="button-group" style="flex-direction: row; flex-wrap: wrap;">
+                <button onclick="startGame(false)" style="flex: 1;">一般模式遊玩</button>
+                <button onclick="startGame(true)" class="btn-highlight" style="flex: 1;">📱 全螢幕橫式 (手機推薦)</button>
             </div>
         `);
     }
 
-    function startGame() {
+    function startGame(useFullscreen) {
+        if (useFullscreen) {
+            enableFullscreen();
+        } else {
+            // 如果玩家選一般模式，關閉防呆提示
+            document.documentElement.classList.remove('landscape-locked');
+        }
+
         const nameInput = document.getElementById('nameInput').value.trim();
         playerName = nameInput ? nameInput : "某";
         stage1();
@@ -366,7 +421,7 @@
         choicesHTML += `</div>`;
 
         renderScreen(`
-            <h2>命運的試煉——科舉考試</h2>
+            <h2>命運的試煉「科舉考試」</h2>
             <div class="story-text">
                 ${descText}
             </div>
@@ -496,7 +551,7 @@
                 <div class="dialogue-line dialogue-left">「孔乙己，你臉上又添上新傷疤了！」</div>
                 <div class="dialogue-line dialogue-right">「我是……我是孔${playerName}！不是孔乙己！」</div>
                 <div class="dialogue-line dialogue-left">「孔乙己，你當眞認識字麽？你怎的連半個秀才也撈不到呢？」</div>
-                <div class="dialogue-line dialogue-right">「我、我……不是孔乙己……」</div>
+                <div class="dialogue-line dialogue-right">「我、我……不是孔乙己！」</div>
                 <div class="dialogue-line dialogue-left">「孔乙己！還欠十九個錢呢！」</div>
                 <div class="dialogue-line dialogue-right">「……」</div>
             </div>
@@ -667,7 +722,7 @@
     function ending_beg_3() {
         renderScreen(`
             <div class="story-text">
-                下著雨的夜晚，你餓死在眾人的笑聲外、無盡的寂靜裡。
+                下著雪的夜晚，你餓死在眾人的視線外、潔白的雪堆裡。
             </div>
             <div class="button-group">
                 <button onclick="ending_beg_4()">【下一頁】</button>
@@ -677,6 +732,9 @@
 
     function ending_beg_4() {
         document.body.className = 'black-theme';
+        document.documentElement.classList.remove('landscape-locked'); // 結局可解除橫向限制
+        if (document.exitFullscreen) document.exitFullscreen().catch(()=>{});
+
         renderScreen(`
             <div class="story-text" style="font-size: 32px; font-weight: bold; margin-top: 20vh; text-align: center;">
                 「還欠十九個錢呢！」
