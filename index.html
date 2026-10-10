@@ -374,7 +374,7 @@
             <div class="story-text" style="text-align: center;">
                 請輸入你的名字：孔 <input type="text" id="nameInput" placeholder="輸入單名或雙名">
                 <br><br>
-                「歡迎來到清末民初的魯鎮。在這個時代，『萬般皆下品，惟有讀書高』。<br>你的一生，將由你的選擇決定……」
+                「歡迎來到清末的魯鎮。在這個時代，『萬般皆下品，惟有讀書高』。<br>你的一生，將由你的選擇決定……」
             </div>
             <div class="button-group" style="flex-direction: row; flex-wrap: wrap;">
                 <button onclick="startGame(false)" style="flex: 1;">一般模式遊玩</button>
@@ -441,11 +441,11 @@
 
         let descText = "";
         if (familyBackground === 'poor') {
-            descText = "你滿懷希望地去參加鄉試，榜單公布那天，你在人群中尋找自己的名字……<br><br>已經飢腸轆轆的你，使勁所有力氣看穿榜單，但卻找不到自己的名字，名落孫山。";
+            descText = "你滿懷希望地去參加童試，榜單公布那天，你在人群中尋找自己的名字……<br><br>已經飢腸轆轆的你，使勁所有力氣看穿榜單，但卻找不到自己的名字，名落孫山。";
         } else if (familyBackground === 'normal') {
-            descText = "你滿懷希望地去參加鄉試，榜單公布那天，你在人群中尋找自己的名字……<br><br>你的八股文不合考官胃口，即使使勁力氣看穿榜單，但都找不到自己的名字，名落孫山。";
+            descText = "你滿懷希望地去參加童試，榜單公布那天，你在人群中尋找自己的名字……<br><br>你的八股文不合考官胃口，即使使勁力氣看穿榜單，但都找不到自己的名字，名落孫山。";
         } else if (familyBackground === 'rich') {
-            descText = "你滿懷希望地去參加鄉試，榜單公布那天，你在人群中尋找自己的名字……<br><br>你的八股文不合考官胃口，即使使勁力氣看穿榜單，但都找不到自己的名字，名落孫山。";
+            descText = "你滿懷希望地去參加童試，榜單公布那天，你在人群中尋找自己的名字……<br><br>你的八股文不合考官胃口，即使使勁力氣看穿榜單，但都找不到自己的名字，名落孫山。";
         }
 
         let choicesHTML = `
@@ -511,7 +511,7 @@
             <div class="button-group">
                 <button onclick="jobResult('teacher')">勉強當上蒙塾老師</button>
                 <button onclick="jobResult('copy')">發揮專長，替人抄書</button>
-                <button onclick="jobResult('labor')">脫下長衫，做苦力</button>
+                <button onclick="jobResult('labor')">穿著長衫，做苦力</button>
             </div>
         `);
     }
@@ -588,7 +588,7 @@
                 <div class="dialogue-line dialogue-right">「我是孔${playerName}！」</div>
                 <div class="dialogue-line dialogue-left">「孔乙己，你臉上又添上新傷疤了！」</div>
                 <div class="dialogue-line dialogue-right">「我是……我是孔${playerName}！不是孔乙己！」</div>
-                <div class="dialogue-line dialogue-left">「孔乙己，你當眞認識字麽？你怎的連半個秀才也撈不到呢？」</div>
+                <div class="dialogue-line dialogue-left">「孔乙己，你當真認識字麼？你怎的連半個秀才也撈不到呢？」</div>
                 <div class="dialogue-line dialogue-right">「我、我……不是孔乙己！」</div>
                 <div class="dialogue-line dialogue-left">「孔乙己！還欠十九個錢呢！」</div>
                 <div class="dialogue-line dialogue-right">「……」</div>
@@ -661,9 +661,9 @@
                 你在一個寒冷的冬夜，用手爬著去買了最後一碗溫酒。
             </div>
             <div class="dialogue-container" id="dialogueBox3">
-                <div class="dialogue-line dialogue-left">「孔乙己麽？你還欠十九個錢呢！」</div>
-                <div class="dialogue-line dialogue-left">「孔乙己，你又偸了東西了！」</div>
-                <div class="dialogue-line dialogue-left">「取笑？要是不偸，怎麽會打斷腿？」</div>
+                <div class="dialogue-line dialogue-left">「孔乙己麼？你還欠十九個錢呢！」</div>
+                <div class="dialogue-line dialogue-left">「孔乙己，你又偷了東西了！」</div>
+                <div class="dialogue-line dialogue-left">「取笑？要是不偷，怎麽會打斷腿？」</div>
             </div>
             <div class="button-group">
                 <button id="nextBtn3" onclick="showNextDialogue3()">【浮現對話】</button>
@@ -706,7 +706,7 @@
 
         renderScreen(`
             <div class="story-text">
-                你被小販抓住。周圍的群眾不但沒有同情遇到你的，反而圍成一圈嘲笑你、毆打你。你在眾人的哄笑聲中，被打得奄奄一息，隔天被發現凍死在街頭。
+                你被小販抓住。周圍的群眾不但沒有同情你，反而圍成一圈嘲笑你、毆打你。你在眾人的哄笑聲中，被打得奄奄一息，隔天被發現凍死在街頭。
             </div>
             <div class="button-group">
                 <button onclick="initGame()">重新開始</button>
@@ -732,9 +732,9 @@
         dialogueIndex = 0;
         renderScreen(`
             <div class="dialogue-container" id="dialogueBox4">
-                <div class="dialogue-line dialogue-left">「孔乙己麽？你還欠十九個錢呢！」</div>
+                <div class="dialogue-line dialogue-left">「孔乙己麼？你還欠十九個錢呢！」</div>
                 <div class="dialogue-line dialogue-left">「孔乙己，你臉上又添上新傷疤了！」</div>
-                <div class="dialogue-line dialogue-left">「孔乙己，你當眞認識字麽？你怎的連半個秀才也撈不到呢？」</div>
+                <div class="dialogue-line dialogue-left">「孔乙己，你當真認識字麼？你怎的連半個秀才也撈不到呢？」</div>
             </div>
             <div class="button-group">
                 <button id="nextBtn4" onclick="showNextDialogue4()">【浮現對話】</button>
